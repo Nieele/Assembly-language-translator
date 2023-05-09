@@ -1,0 +1,13 @@
+begin 1000h
+st: 	ldx zero
+	lda dat,X
+	addx wsz
+	add dat,X
+	sta rez
+	hlt
+zero:	dw 0
+wsz:	dw 3
+rez:	resw 1
+dat: 	dw 7
+	dw 11
+end st
