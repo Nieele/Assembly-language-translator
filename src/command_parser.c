@@ -5,7 +5,7 @@
 #define strtok_s strtok_r
 #endif
 
-#include "command_parser.h"
+#include "../include/command_parser.h"
 
 static bool isBufferOverflow(const char buffer[])
 {

@@ -1,4 +1,4 @@
-#include "symbols.h"
+#include "../include/symbols.h"
 
 struct SymbolsNode* makeSymbolNode(const char* label, const bool type, const uint16_t address) {
 	struct SymbolsNode* temp = malloc(sizeof(struct SymbolsNode));
@@ -25,6 +25,7 @@ struct SymbolsNode* getSymbolsNode(const struct HashTable* symbolsTable, const c
 }
 
 bool changeAddressSymbol(struct HashTable* symbolTable, const char* key, const uint16_t newAddress) {
+	if (!key) return false;
 	struct SymbolsNode* node = getSymbolsNode(symbolTable, key);
 	if (!node) return false;
 	node->address = newAddress;

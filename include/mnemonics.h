@@ -29,5 +29,9 @@ bool isCorrectOperator(const struct HashTable* mnemonicTable, const char* str);
 bool isBeginOperator(const char* str);
 bool isEndOperator(const char* str);
 bool isInterruptionOperator(const char* str);
+bool isReserveOperator(const char* str);
+const char* getBeginOperator();
+const char* getEndOperator();
+const char* getInterruptionOperator();
 
 #endif // !MNEMONICS_H

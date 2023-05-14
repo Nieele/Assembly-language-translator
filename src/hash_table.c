@@ -1,6 +1,6 @@
 #define HASH_UNION_STR_SIZE 4
 
-#include "hash_table.h"
+#include "../include/hash_table.h"
 
 union HashUnion {
 	char str[HASH_UNION_STR_SIZE];

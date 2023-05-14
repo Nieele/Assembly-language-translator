@@ -1,7 +1,7 @@
 #ifndef STR_COMMAND_STRUCT_H
 #define STR_COMMAND_STRUCT_H
 
-#define INITIAL_SIZE_BUFFER_OPERAND 32u
+#define MAX_SIZE_MULTIPLE_OPERAND 32u
 
 #include <malloc.h>
 #include <stdio.h>
@@ -14,12 +14,8 @@ typedef struct StrCommand {
 };
 
 typedef struct MultipleOperand {
-	size_t sizeBufferOperand0;
-	size_t sizeBufferOperand1;
-	char* bufferOperand[2];
+	char operand0[MAX_SIZE_MULTIPLE_OPERAND];
+	char operand1[MAX_SIZE_MULTIPLE_OPERAND];
 };
-
-struct MultipleOperand* createMultipleOperand();
-void deleteMultipleOperand(struct MultipleOperand** multiple);
 
 #endif // !STR_COMMAND_STRUCT_H

@@ -2,7 +2,7 @@
 #define strtok_s strtok_r
 #endif
 
-#include "mnemonics.h"
+#include "../include/mnemonics.h"
 
 static struct MnemonicNode* makeMnemonicNode(const char* mnemonic, const bool tag, const uint16_t machineInstruction) {
 	struct MnemonicNode* temp = malloc(sizeof(struct MnemonicNode));
@@ -45,6 +45,7 @@ struct MnemonicNode* getMnemonicNode(const struct HashTable* mnemonicsTable, con
 }
 
 bool isCorrectOperator(const struct HashTable* mnemonicTable, const char* str) {
+	if (!str) return true;
 	if (getMnemonicNode(mnemonicTable, str) != NULL) return true;
 	return false;
 }
@@ -66,4 +67,22 @@ bool isInterruptionOperator(const char* str)
 	if (!str) return false;
 	if (!strcmp(str, strMnemonics_command[0])) return true;
 	return false;
+}
+
+bool isReserveOperator(const char* str) {
+	if (!str) return false;
+	if (!strcmp(str, "resw")) return true;
+	return false;
+}
+
+const char* getBeginOperator() {
+	return strMnemonics_directive[0];
+}
+
+const char* getEndOperator() {
+	return strMnemonics_directive[1];
+}
+
+const char* getInterruptionOperator() {
+	return strMnemonics_command[0];
 }

@@ -127,21 +127,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="str_command_struct.c" />
-    <ClCompile Include="translator.c" />
-    <ClCompile Include="command_parser.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="hash_table.c" />
-    <ClCompile Include="mnemonics.c" />
-    <ClCompile Include="symbols.c" />
+    <ClCompile Include="src\command_parser.c" />
+    <ClCompile Include="src\hash_table.c" />
+    <ClCompile Include="src\mnemonics.c" />
+    <ClCompile Include="src\symbols.c" />
+    <ClCompile Include="src\translator.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="translator.h" />
-    <ClInclude Include="command_parser.h" />
-    <ClInclude Include="hash_table.h" />
-    <ClInclude Include="mnemonics.h" />
-    <ClInclude Include="str_command_struct.h" />
-    <ClInclude Include="symbols.h" />
+    <ClInclude Include="include\command_parser.h" />
+    <ClInclude Include="include\hash_table.h" />
+    <ClInclude Include="include\mnemonics.h" />
+    <ClInclude Include="include\str_command_struct.h" />
+    <ClInclude Include="include\symbols.h" />
+    <ClInclude Include="include\translator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data.txt" />
+    <Text Include="result.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
