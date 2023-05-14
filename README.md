@@ -1,4 +1,4 @@
 # Assembly-language-translator 
-h3 This project is an academic assignment of the university, the purpose of which is to develop a semblance of an absolute assembler. 
+### This project is an academic assignment of the university, the purpose of which is to develop a semblance of an absolute assembler. 
 ---
-h3 A program written in assembly language is fed to the "absolute assembler" input, as a result of execution you get a listing, a binary dump, as well as object code
+### A program written in assembly language is fed to the "absolute assembler" input, as a result of execution you get a listing, a binary dump, as well as object code
