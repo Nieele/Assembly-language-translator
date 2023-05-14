@@ -213,6 +213,7 @@ static void secondPass(const FILE* inFile, FILE* outFile, struct HashTable* symb
 	struct StrCommand strCommand;
 	uint32_t machineInstruction;
 	size_t shift;
+	size_t lines = countLinesCode;
 	bool firstOutput = true;
 
 	findBeginOperator(inFile, mnemonicsTable, &strCommand);
@@ -233,13 +234,14 @@ static void secondPass(const FILE* inFile, FILE* outFile, struct HashTable* symb
 			currentPosition += MACHINE_COMMAND_SIZE * shift;
 
 			if (firstOutput) {
-				fprintf(outFile, ":%02d%04x%02d%06x", 6, currentPosition, 0, machineInstruction);
+				fprintf(outFile, ":%02d%04x%02d%06x", lines != 0 ? 6 : 3, currentPosition, 0, machineInstruction);
 				firstOutput = false;
 			}
 			else {
 				fprintf(outFile, "%06xXX\n", machineInstruction);
 				firstOutput = true;
 			}
+			lines--;
 		}
 	}
 	if (!firstOutput) fprintf(outFile, "XX\n");
