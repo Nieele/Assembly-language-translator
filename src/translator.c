@@ -22,10 +22,6 @@ static bool findBeginOperator(const FILE* inFile, const struct HashTable* mnemon
 	while (getCommandFromFile(inFile, strCommand))
 		if (strCommand->_operator)
 			if (isBeginOperator(strCommand->_operator)) {
-				// listing output for begin
-				printf("%04x ", currentPosition);
-				printCommandToCmd(strCommand);
-
 				if (strCommand->_operand)
 					placementPointer = currentPosition = strtol(strCommand->_operand, NULL, 16);
 				beginFind = true;
@@ -111,21 +107,20 @@ static void insertLabelIntoSymbolsTable(struct HashTable* symbolsTable, const st
 /// <param name="symbolsTable"></param>
 /// <param name="mnemonicsTable"></param>
 /// <returns>true if executed successfully</returns>
-static bool firstPass_analyzeCodeSegment(const FILE* inFile, struct HashTable* symbolsTable, const struct HashTable* mnemonicsTable) {
-	struct StrCommand strCommand;
+static bool firstPass_analyzeCodeSegment(const FILE* inFile, struct HashTable* symbolsTable, const struct HashTable* mnemonicsTable, struct StrCommand* strCommand) {
 
-	while (getCommandFromFile(inFile, &strCommand)) {
-		if (!isCommentCommand(&strCommand)) {
+	while (getCommandFromFile(inFile, strCommand)) {
+		if (!isCommentCommand(strCommand)) {
 			// listing output
 			printf("%04x ", currentPosition);
-			printCommandToCmd(&strCommand);
+			printCommandToCmd(strCommand);
 
-			if (checkDublicateStructuralOperators(&strCommand)) return false;
+			if (checkDublicateStructuralOperators(strCommand)) return false;
 			if (interruptionFind || endFind) return true;
 
-			insertLabelIntoSymbolsTable(symbolsTable, &strCommand);
-			if (!isCorrectOperator(mnemonicsTable, strCommand._operator)) return false;
-			insertOperandIntoSymbolsTable(symbolsTable, &strCommand);
+			insertLabelIntoSymbolsTable(symbolsTable, strCommand);
+			if (!isCorrectOperator(mnemonicsTable, strCommand->_operator)) return false;
+			insertOperandIntoSymbolsTable(symbolsTable, strCommand);
 
 			currentPosition += MACHINE_COMMAND_SIZE;
 			countLinesCode++;
@@ -134,24 +129,23 @@ static bool firstPass_analyzeCodeSegment(const FILE* inFile, struct HashTable* s
 	return true;
 }
 
-static bool firstPass_analyzeDataSegment(const FILE* inFile, struct HashTable* symbolsTable, const struct HashTable* mnemonicsTable) {
-	struct StrCommand strCommand;
+static bool firstPass_analyzeDataSegment(const FILE* inFile, struct HashTable* symbolsTable, const struct HashTable* mnemonicsTable, struct StrCommand* strCommand) {
 	size_t shift;
 	if (interruptionFind) currentPosition += MACHINE_COMMAND_SIZE;
 
-	while (getCommandFromFile(inFile, &strCommand)) {
-		if (!isCommentCommand(&strCommand)) {
+	while (getCommandFromFile(inFile, strCommand)) {
+		if (!isCommentCommand(strCommand)) {
 			// listing output
 			printf("%04x ", currentPosition);
-			printCommandToCmd(&strCommand);
+			printCommandToCmd(strCommand);
 			
-			if (checkDublicateStructuralOperators(&strCommand)) return false;
+			if (checkDublicateStructuralOperators(strCommand)) return false;
 			if (endFind) return true;
 
 			shift = 1;
-			changeAddressSymbol(symbolsTable, strCommand._label, currentPosition);
-			if (isReserveOperator(strCommand._operator))
-				shift = strtol(strCommand._operand, NULL, 10);
+			changeAddressSymbol(symbolsTable, strCommand->_label, currentPosition);
+			if (isReserveOperator(strCommand->_operator))
+				shift = strtol(strCommand->_operand, NULL, 10);
 
 			currentPosition += MACHINE_COMMAND_SIZE * shift;
 			countLinesCode++;
@@ -165,9 +159,16 @@ static bool firstPass(const FILE* inFile, struct HashTable* symbolsTable, const 
 	beginFind = endFind = interruptionFind = false;
 
 	if (!findBeginOperator(inFile, mnemonicsTable, &strCommand)) return false;
-	if (firstPass_analyzeCodeSegment(inFile, symbolsTable, mnemonicsTable))
-		firstPass_analyzeDataSegment(inFile, symbolsTable, mnemonicsTable);
+	
+	// listing for begin
+	printf("%04x ", currentPosition);
+	printCommandToCmd(&strCommand);
+
+	if (firstPass_analyzeCodeSegment(inFile, symbolsTable, mnemonicsTable, &strCommand))
+		firstPass_analyzeDataSegment(inFile, symbolsTable, mnemonicsTable, &strCommand);
 	sizeProgram = currentPosition - placementPointer;
+
+	printf("Placement point: %04xh Size of program: %xh Entry point: %04xh\n", placementPointer, sizeProgram, placementPointer);
 
 	if (beginFind && endFind)
 		return true;
