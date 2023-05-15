@@ -241,7 +241,7 @@ static void secondPass(const FILE* inFile, FILE* outFile, struct HashTable* symb
 				fprintf(outFile, "%06xXX\n", machineInstruction);
 				firstOutput = true;
 			}
-			lines--;
+			--lines;
 		}
 	}
 	if (!firstOutput) fprintf(outFile, "XX\n");
