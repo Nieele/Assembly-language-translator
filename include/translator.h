@@ -20,7 +20,7 @@ static bool beginFind;
 static bool endFind;
 static bool interruptionFind;
 
-static size_t getCountLines(FILE* file);
+static size_t getCountLines(const FILE* file);
 static bool findBeginOperator(const FILE* inFile, const struct HashTable* mnemonicsTable, const struct StrCommand* strCommand);
 static bool checkDublicateStructuralOperators(const struct StrCommand* strCommand);
 static bool isCommentCommand(const struct StrCommand* strCommand);

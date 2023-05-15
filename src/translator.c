@@ -1,6 +1,6 @@
 #include "../include/translator.h"
 
-static size_t getCountLines(FILE* file) {
+static size_t getCountLines(const FILE* file) {
 	fseek(file, 0, SEEK_SET);
 	char c;
 	size_t count = 0;
