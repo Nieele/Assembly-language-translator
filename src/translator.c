@@ -254,7 +254,7 @@ void translateCode(const FILE* inFile, FILE* outFile) {
 	struct HashTable* mnemonicsTable = createMnemonicTable();
 
 	if (symbolsTable && mnemonicsTable) {
-		if (firstPass(inFile, symbolsTable, mnemonicsTable));
+		if (firstPass(inFile, symbolsTable, mnemonicsTable))
 			secondPass(inFile, outFile, symbolsTable, mnemonicsTable);
 	}
 
